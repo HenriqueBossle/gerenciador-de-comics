@@ -64,19 +64,18 @@
 </nav>
 
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
     @foreach ($comics as $comic)
     <div class="bg-white rounded-lg shadow-md p-4">
         @if ($comic->image)
             <img src="{{ asset($comic->image) }}" alt="{{ $comic->title }}" class="w-full object-cover rounded-md mb-4">
         @endif
-        <h2 class="text-xl font-semibold text-gray-800">{{ $comic->title }}</h2>
-        <p class="text-sm text-gray-600">Número: {{ $comic->number }}</p>
-        <p class="text-sm text-gray-600">Publicado em: {{ $comic->release_date }}</p>
-        <p class="text-sm text-gray-600">Categoria: {{ $comic->category->name }}</p>
+        <h2 class="text-xl font-semibold text-gray-800">{{ $comic->title }} #{{ $comic->number }}</h2>
+        <p class="text-sm text-gray-600 font-semibold">{{ $comic->release_date }}</p>
+        <p class="text-sm text-gray-600 font-semibold">{{ $comic->category->name }}</p>
 
-        <div class="flex justify-between mt-4">
-            <a href="{{ url('comics/' . $comic->id . '/edit') }}" class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded px-3 py-1 text-sm">Editar</a>
+        <div class="flex justify-content mt-4">
+            <a href="{{ url('comics/' . $comic->id . '/edit') }}" class="text-white bg-blue-500 hover:bg-yellow-600 font-medium rounded px-3 py-1 mr-4 text-sm">Editar</a>
             <form action="{{ url('comics/' . $comic->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta HQ?')">
                 @csrf
                 @method('DELETE')

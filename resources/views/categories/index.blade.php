@@ -66,8 +66,8 @@
     <div class="bg-white rounded-lg shadow-md p-4">
         <h2 class="text-xl font-semibold text-gray-800">{{ $category->name }}</h2>
         
-        <div class="flex justify-between mt-4">
-            <a href="{{ url('categories/' . $category->id . '/edit') }}" class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded px-3 py-1 text-sm">Editar</a>
+        <div class="flex justify-content mt-4">
+            <a href="{{ url('categories/' . $category->id . '/edit') }}" class="text-white bg-blue-500 hover:bg-yellow-600 font-medium rounded px-3 py-1 mr-4 text-sm">Editar</a>
             <form action="{{ url('categories/' . $category->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?')">
                 @csrf
                 @method('DELETE')
