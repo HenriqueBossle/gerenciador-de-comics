@@ -6,16 +6,35 @@ use App\Models\Category;
 use App\Models\Comic;
 use Illuminate\Http\Request;
 
+//use function Laravel\Prompts\search;
+
 class ComicController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
+{
+    $search = request('search');
+    $campo = request('campo');
+
+    if ($search && in_array($campo, ['title', 'category'])) {
+        if ($campo === 'category') {
+            // Filtra por nome da categoria (relacionamento)
+            $comics = Comic::whereHas('category', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->with('category')->get();
+        } else {
+            // Filtra por título
+            $comics = Comic::where($campo, 'like', '%' . $search . '%')->with('category')->get();
+        }
+    } else {
         $comics = Comic::with('category')->get();
-        return view('comics.index', compact('comics'));
     }
+
+    return view('comics.index', compact('comics', 'search'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -62,6 +81,8 @@ class ComicController extends Controller
     
     public function edit(string $id)
     {
+
+        
         $comic = Comic::findOrFail($id);
         $categories = Category::all();
         return view('comics.edit', compact('comic', 'categories'));
